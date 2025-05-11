@@ -282,4 +282,31 @@ else:
     with app.app_context():
         logger.info("Creating database tables for production...")
         db.create_all()
-        logger.info("Tables created successfully") 
+        logger.info("Tables created successfully")
+        
+        # Check if cafes already imported and add them if needed
+        if Cafe.query.count() == 0:
+            logger.info("No cafes found in database. Importing from direct_db_fix.py...")
+            try:
+                from direct_db_fix import CAFE_DATA
+                for cafe_data in CAFE_DATA:
+                    cafe = Cafe(
+                        name=cafe_data["name"],
+                        map_url=cafe_data["map_url"],
+                        img_url=cafe_data["img_url"],
+                        location=cafe_data["location"],
+                        has_sockets=cafe_data["has_sockets"],
+                        has_toilet=cafe_data["has_toilet"], 
+                        has_wifi=cafe_data["has_wifi"],
+                        can_take_calls=cafe_data["can_take_calls"],
+                        seats=cafe_data["seats"],
+                        coffee_price=cafe_data["coffee_price"]
+                    )
+                    db.session.add(cafe)
+                
+                db.session.commit()
+                logger.info(f"Successfully added {len(CAFE_DATA)} cafes to database")
+            except Exception as e:
+                logger.error(f"Error importing cafes: {e}")
+        else:
+            logger.info(f"Database already has {Cafe.query.count()} cafes.") 
