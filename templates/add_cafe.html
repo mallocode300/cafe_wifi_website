@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Add Cafe - Cafe WiFi{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title mb-0">Add New Cafe</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('add_cafe') }}">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.name.label(class="form-label") }}
+                                {{ form.name(class="form-control") }}
+                                {% if form.name.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.location.label(class="form-label") }}
+                                {{ form.location(class="form-control") }}
+                                {% if form.location.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.location.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.map_url.label(class="form-label") }}
+                        {{ form.map_url(class="form-control") }}
+                        {% if form.map_url.errors %}
+                            <div class="text-danger">
+                                {% for error in form.map_url.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">Enter a Google Maps URL for the cafe location</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.img_url.label(class="form-label") }}
+                        {{ form.img_url(class="form-control") }}
+                        {% if form.img_url.errors %}
+                            <div class="text-danger">
+                                {% for error in form.img_url.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">URL for a photo of the cafe</div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.seats.label(class="form-label") }}
+                                {{ form.seats(class="form-control") }}
+                                {% if form.seats.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.seats.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.coffee_price.label(class="form-label") }}
+                                {{ form.coffee_price(class="form-control") }}
+                                {% if form.coffee_price.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.coffee_price.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-3 col-6">
+                            <div class="form-check">
+                                {{ form.has_wifi(class="form-check-input") }}
+                                {{ form.has_wifi.label(class="form-check-label") }}
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="form-check">
+                                {{ form.has_sockets(class="form-check-input") }}
+                                {{ form.has_sockets.label(class="form-check-label") }}
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="form-check">
+                                {{ form.has_toilet(class="form-check-input") }}
+                                {{ form.has_toilet.label(class="form-check-label") }}
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="form-check">
+                                {{ form.can_take_calls(class="form-check-input") }}
+                                {{ form.can_take_calls.label(class="form-check-label") }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-primary btn-lg") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
