@@ -35,6 +35,7 @@ venv.bak/
 
 # Database
 *.db
+!cafes.db
 *.sqlite3
 
 # IDE
