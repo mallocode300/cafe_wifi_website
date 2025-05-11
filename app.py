@@ -9,6 +9,11 @@ import sqlite3
 from dotenv import load_dotenv
 from datetime import datetime
 import sys
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Load environment variables
 # Create a .env file with SECRET_KEY=your_secret_key_here for better security
@@ -21,9 +26,15 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key-here')
 # Configure the database
 if os.environ.get('DATABASE_URL'):
     # For Render PostgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace('postgres://', 'postgresql://')
+    logger.info("Using PostgreSQL database")
+    db_url = os.environ.get('DATABASE_URL')
+    # Make sure we're using postgresql:// not postgres://
+    if db_url.startswith('postgres://'):
+        db_url = db_url.replace('postgres://', 'postgresql://', 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 else:
     # For local SQLite database
+    logger.info("Using SQLite database")
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafe_web.db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -264,4 +275,11 @@ if __name__ == '__main__':
         # Only import data when running locally
         if not os.environ.get('DATABASE_URL'):
             import_data_from_old_db()
-    app.run(debug=True) 
+    app.run(debug=True)
+else:
+    # This will execute when running under Gunicorn
+    # Create tables when starting the application on Render
+    with app.app_context():
+        logger.info("Creating database tables for production...")
+        db.create_all()
+        logger.info("Tables created successfully") 

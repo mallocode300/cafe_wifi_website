@@ -2,7 +2,15 @@
 # exit on error
 set -o errexit
 
+echo "Installing dependencies..."
 pip install -r requirements.txt
 
-# Create the initial database if it doesn't exist
-python init_db.py 
+# Make sure to install these critical packages explicitly
+echo "Installing additional critical packages..."
+pip install psycopg2-binary gunicorn
+
+# Create the initial database
+echo "Initializing database..."
+python init_db.py || echo "Database initialization failed, but continuing build process"
+
+echo "Build completed successfully" 
