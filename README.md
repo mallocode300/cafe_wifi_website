@@ -10,6 +10,8 @@ A Flask web application for finding and reviewing cafes with WiFi and other amen
 - Like cafes to show your appreciation
 - Post reviews with ratings for cafes
 - Delete cafes from the database
+- Fully responsive design that works on all devices
+- Modern, user-friendly interface
 
 ## Technologies Used
 
@@ -67,6 +69,12 @@ This application is configured for easy deployment on [Render](https://render.co
 - `build.sh`: Setup script run during deployment
 - `init_db.py`: Script to initialize the database
 - `wsgi.py`: Entry point for the Gunicorn server
+
+## Recent Updates
+
+- Updated footer with copyright year 2025 and developer attribution
+- Improved responsive design for better mobile experience
+- Fixed database issues for production deployment on Render
 
 ## License
 
